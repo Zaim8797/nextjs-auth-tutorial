@@ -8,7 +8,7 @@ export const SignInSchema = z.object({
 
   password: z
     .string()
-    .min(6, { message: "Password must be at least 6 characters long. " })
+    .min(6, { message: "Password must be at least 6 characters long." })
     .max(100, { message: "Password cannot exceed 100 characters." }),
 });
 
@@ -53,10 +53,11 @@ export const SignUpSchema = z.object({
 export const AskQuestionSchema = z.object({
   title: z
     .string()
-    .min(5, { message: "Title is required." })
+    .min(5, { message: "Title must be at least 5 characters long." })
     .max(100, { message: "Title cannot exceed 100 characters." }),
 
   content: z.string().min(1, { message: "Body is required." }),
+
   tags: z
     .array(
       z
@@ -70,16 +71,28 @@ export const AskQuestionSchema = z.object({
 
 export const UserSchema = z.object({
   name: z.string().min(1, { message: "Name is required." }),
+
   username: z
     .string()
     .min(3, { message: "Username must be at least 3 characters long." }),
-  email: z.string().email({ message: "Please provide a valid email address." }),
+
+  email: z
+    .string()
+    .email({ message: "Please provide a valid email address." }),
+
   bio: z.string().optional(),
-  image: z.string().url({ message: "Please provide a valid URL." }).optional(),
+
+  image: z
+    .string()
+    .url({ message: "Please provide a valid URL." })
+    .min(1, { message: "Image is required." }), // Ensures image is mandatory
+
   location: z.string().optional(),
+
   portfolio: z
     .string()
     .url({ message: "Please provide a valid URL." })
     .optional(),
-  reputation: z.number().optional(),
+
+  reputation: z.number().default(0),
 });
